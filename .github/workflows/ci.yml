@@ -54,12 +54,17 @@ jobs:
         run: |
           echo "Server Username: $SERVER_USERNAME"
           echo "Server Host: $SERVER_HOST"
-          echo "Private Key: $SSH_PRIVATE_KEY" | head -n 4
+          echo "${SSH_PRIVATE_KEY}" > private_key.pem
+          chmod 600 private_key.pem
           ssh -i private_key.pem -o StrictHostKeyChecking=no -T $SERVER_USERNAME@$SERVER_HOST
+
 
 
       - name: Debug SSH Key
         run: |
+          echo "${SSH_PRIVATE_KEY}" > private_key.pem
+          chmod 600 private_key.pem
+          echo "Private key saved and permissions set"
           echo "${SSH_PRIVATE_KEY}" | head -n 4
           echo "${SSH_PRIVATE_KEY}" | tail -n 4
           echo "${SSH_PRIVATE_KEY}" > private_key.pem
