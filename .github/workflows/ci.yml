@@ -56,6 +56,7 @@ jobs:
       - name: Debug SSH connection
         run: |
           echo "Server Username: $SERVER_USERNAME"
+          echo "Server Username: $SERVER_USERNAME"
           echo "Server Host: $SERVER_HOST"
           echo "${SSH_PRIVATE_KEY}" > private_key.pem
           chmod 600 private_key.pem
