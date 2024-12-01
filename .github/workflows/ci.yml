@@ -50,6 +50,9 @@ jobs:
         run: |
           docker build -t my-app:${{ github.sha }} .
 
+      - name: Print all environment variables
+        run: env
+
       - name: Debug SSH connection
         run: |
           echo "Server Username: $SERVER_USERNAME"
