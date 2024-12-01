@@ -101,10 +101,9 @@ jobs:
         run: |
           echo "${SSH_PRIVATE_KEY}" > private_key.pem
           chmod 600 private_key.pem
-          # Убедитесь, что образ существует и его тег правильный
-          docker images  # Печать всех доступных образов для проверки
-          docker save my-app:${{ github.sha }} | gzip | ssh -i private_key.pem -o StrictHostKeyChecking=no $SERVER_USERNAME@$SERVER_HOST "gunzip | docker load"
-          rm private_key.pem
+          docker save my-app:${{ github.sha }} | gzip > my-app.tar.gz
+          scp -i private_key.pem -o StrictHostKeyChecking=no my-app.tar.gz $SERVER_USERNAME@$SERVER_HOST:/tmp/
+          rm private_key.pem my-app.tar.gz
 
       - name: Deploy on server
         env:
