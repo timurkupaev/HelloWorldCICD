@@ -52,6 +52,12 @@ jobs:
         run: |
           docker build -t my-app:${{ github.sha }} .
 
+      - name: Debug SSH Key
+        run: |
+          echo "${SSH_PRIVATE_KEY}" > private_key.pem
+          cat private_key.pem  # Выводим содержимое файла для проверки
+          chmod 600 private_key.pem
+
       - name: Copy Docker image to server
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SERVER_PRIVATE_KEY }}
