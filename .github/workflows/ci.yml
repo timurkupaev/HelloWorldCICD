@@ -50,7 +50,7 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t $DOCKER_IMAGE_NAME:${{ github.sha }} .
+          docker build -t my-app:${{ github.sha }} .
 
       - name: Copy Docker image to server
         env:
