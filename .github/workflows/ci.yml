@@ -54,9 +54,14 @@ jobs:
 
       - name: Debug SSH Key
         run: |
+          echo "${SSH_PRIVATE_KEY}" | head -n 4
+          echo "${SSH_PRIVATE_KEY}" | tail -n 4
           echo "${SSH_PRIVATE_KEY}" > private_key.pem
-          cat private_key.pem  # Выводим содержимое файла для проверки
           chmod 600 private_key.pem
+
+      - name: Test SSH connection
+        run: |
+          ssh -i private_key.pem -o StrictHostKeyChecking=no -T $SERVER_USERNAME@$SERVER_HOST
 
       - name: Copy Docker image to server
         env:
@@ -66,7 +71,9 @@ jobs:
         run: |
           echo "${SSH_PRIVATE_KEY}" > private_key.pem
           chmod 600 private_key.pem
-          docker save $DOCKER_IMAGE_NAME:${{ github.sha }} | gzip | ssh -i private_key.pem -o StrictHostKeyChecking=no $SERVER_USERNAME@$SERVER_HOST "gunzip | docker load"
+          # Убедитесь, что образ существует и его тег правильный
+          docker images  # Печать всех доступных образов для проверки
+          docker save my-app:${{ github.sha }} | gzip | ssh -i private_key.pem -o StrictHostKeyChecking=no $SERVER_USERNAME@$SERVER_HOST "gunzip | docker load"
           rm private_key.pem
 
       - name: Deploy on server
