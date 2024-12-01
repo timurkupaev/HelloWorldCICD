@@ -50,9 +50,7 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build --cache-from=type=local,src=/tmp/.buildx-cache \
-                       --cache-to=type=local,dest=/tmp/.buildx-cache \
-                       -t $DOCKER_IMAGE_NAME:${{ github.sha }} .
+          docker build -t $DOCKER_IMAGE_NAME:${{ github.sha }} .
 
       - name: Copy Docker image to server
         env:
