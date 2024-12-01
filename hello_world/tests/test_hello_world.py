@@ -1,4 +1,5 @@
-from src.hello_world import hello
+from hello_world.src.hello_world import hello
+
 
 
 def test_hello():

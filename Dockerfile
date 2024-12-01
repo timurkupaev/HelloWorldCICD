@@ -14,5 +14,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # Команда для запуска приложения
-CMD ["python", "hello_world/hello_world.py"]
+CMD ["python", "hello_world/src/hello_world.py"]
+
 
