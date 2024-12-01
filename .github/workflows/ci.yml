@@ -53,6 +53,13 @@ jobs:
       - name: Print all environment variables
         run: env
 
+      - name: Проверка наличия секретов
+        run: |
+          if [ -z "${SERVER_USERNAME}" ]; then echo "SERVER_USERNAME не установлен"; else echo "SERVER_USERNAME установлен"; fi
+          if [ -z "${SERVER_HOST}" ]; then echo "SERVER_HOST не установлен"; else echo "SERVER_HOST установлен"; fi
+          if [ -z "${SSH_PRIVATE_KEY}" ]; then echo "SSH_PRIVATE_KEY не установлен"; else echo "SSH_PRIVATE_KEY установлен"; fi
+
+
       - name: Debug SSH connection
         run: |
           echo "Server Username: $SERVER_USERNAME"
