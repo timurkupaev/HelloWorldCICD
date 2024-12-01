@@ -34,8 +34,6 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     needs: test
-    env:
-      DOCKER_IMAGE_NAME: ${{ secrets.DOCKER_IMAGE_NAME }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -51,6 +49,14 @@ jobs:
       - name: Build Docker image
         run: |
           docker build -t my-app:${{ github.sha }} .
+
+      - name: Debug SSH connection
+        run: |
+          echo "Server Username: $SERVER_USERNAME"
+          echo "Server Host: $SERVER_HOST"
+          echo "Private Key: $SSH_PRIVATE_KEY" | head -n 4
+          ssh -i private_key.pem -o StrictHostKeyChecking=no -T $SERVER_USERNAME@$SERVER_HOST
+
 
       - name: Debug SSH Key
         run: |
