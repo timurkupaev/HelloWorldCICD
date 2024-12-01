@@ -117,6 +117,7 @@ jobs:
           ssh -i private_key.pem -o StrictHostKeyChecking=no $SERVER_USERNAME@$SERVER_HOST '
           docker-compose down &&
           docker-compose up -d &&
-          docker logs <CONTAINER_NAME>
+          docker logs my-app
           '
           rm private_key.pem
+
