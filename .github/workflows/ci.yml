@@ -52,7 +52,7 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t my-app:${{ github.sha }} .
+          docker build -t my-app:latest .
 
       - name: Print all environment variables
         run: env
@@ -101,7 +101,7 @@ jobs:
         run: |
           echo "${SSH_PRIVATE_KEY}" > private_key.pem
           chmod 600 private_key.pem
-          docker save my-app:${{ github.sha }} | gzip > my-app.tar.gz
+          docker save my-app:latest | gzip > my-app.tar.gz
           scp -i private_key.pem -o StrictHostKeyChecking=no my-app.tar.gz $SERVER_USERNAME@$SERVER_HOST:/tmp/
           rm private_key.pem my-app.tar.gz
 
@@ -119,6 +119,6 @@ jobs:
             docker rm my-app || true &&
             # Запустить новый контейнер
             docker load < /tmp/my-app.tar.gz &&
-            docker run -d --name my-app -p 8000:8000 my-app:${{ github.sha }}
+            docker run -d --name my-app -p 8000:8000 my-app:latest
           '
           rm private_key.pem
